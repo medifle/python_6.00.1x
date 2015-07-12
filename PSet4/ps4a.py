@@ -20,7 +20,7 @@ SCRABBLE_LETTER_VALUES = {
 # Helper code
 # (you don't need to understand this helper code)
 
-WORDLIST_FILENAME = "/Users/bolo/Documents/python_6.00.1x/PSet4/words.txt"
+WORDLIST_FILENAME = "/Users/bolo/githubRepo/python_6.00.1x/PSet4/words.txt"
 
 def loadWords():
     """
@@ -291,15 +291,19 @@ def playGame(wordList):
         # Ask user for input
         userInput = raw_input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
         
-        if userInput == n:
+        if userInput == 'n':
             lastHand = dealHand(n)
             playHand(lastHand, wordList, n)
-        elif userInput == r:
+        elif userInput == 'r':
             # check whether you have played at least one hand
-            if lastHand > 0:
+            if len(lastHand) > 0:
                 playHand(lastHand, wordList, n)
             else:
                 print('You have not played a hand yet. Please play a new hand first!')
+        elif userInput == 'e':
+            return None
+        else:
+            print('Invalid command.')
                 
     
    
