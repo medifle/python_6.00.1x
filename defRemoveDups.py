@@ -1,8 +1,8 @@
 # remove duplicates in two lists
 
 def removeDups0(L1, L2):
-    # this is a wrong block of code
-    for a in L1Clone:
+    # this block of code doesn't work as expected
+    for a in L1:
         if a in L2:
             L1.remove(a)
 
