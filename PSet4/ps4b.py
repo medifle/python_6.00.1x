@@ -1,6 +1,23 @@
 from ps4a import *
 import time
 
+def constructWord(hand, word):
+    """
+    check if the given hand could construct the given word
+    hand: dictionary
+    word: string
+    returns string
+    """
+    check = None
+    wordDic = getFrequencyDict(word)
+    for i in wordDic:
+        if (wordDic[i] > hand.get(i, None)) or (i not in hand):
+            check = 0
+    if check == 0:
+        return ''
+    else:
+        return word
+
 
 #
 #
@@ -23,24 +40,25 @@ def compChooseWord(hand, wordList, n):
 
     returns: string or None
     """
-    # BEGIN PSEUDOCODE <-- Remove this comment when you code this function; do your coding within the pseudocode (leaving those comments in-place!)
     # Create a new variable to store the maximum score seen so far (initially 0)
-
+    maxScore = 0
     # Create a new variable to store the best word seen so far (initially None)  
-
+    bestWord = None
     # For each word in the wordList
-
+    for i in wordList:
         # If you can construct the word from your hand
         # (hint: you can use isValidWord, or - since you don't really need to test if the word is in the wordList - you can make a similar function that omits that test)
-
+        wordCons = constructWord(hand, i)
+        if len(wordCons) > 0:
             # Find out how much making that word is worth
-
+            wordScore = getWordScore(wordCons, n)
             # If the score for that word is higher than your best score
-
+            if wordScore > maxScore:
                 # Update your best score, and best word accordingly
-
-
+                maxScore = wordScore
+                bestWord = wordCons
     # return the best word you found.
+    return bestWord
 
 
 #
@@ -65,7 +83,32 @@ def compPlayHand(hand, wordList, n):
     wordList: list (string)
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    # initialize total score
+    totalScore = 0
+    # As long as there are still letters left in the hand:
+    while calculateHandlen(hand) > 0:
+        # Display the hand
+        print 'Current Hand: ',
+        displayHand(hand)
+    
+        # Ask computer for input
+        compInput = compChooseWord(hand, wordList, n)
+        
+        # If the word can be constructed:
+        try:
+            if len(compInput) > 0:
+                # Show how many points the word earned, and the updated total score
+                totalScore += getWordScore(compInput, n)
+                print ('"' + compInput +'"' + ' earned ' +str(getWordScore(compInput, n))+ ' points. Total: ' + str(totalScore) + ' points')
+                print
+                # Update the hand 
+                hand = updateHand(hand, compInput)
+        # If the word cannot be constructed:
+        except TypeError:
+            break
+
+    # Game is over, show total score
+    print ('Total score: ' + str(totalScore) + ' points.')
     
 #
 # Problem #8: Playing a game
@@ -95,8 +138,46 @@ def playGame(wordList):
 
     wordList: list (string)
     """
-    # TO DO... <-- Remove this comment when you code this function
-    print "playGame not yet implemented." # <-- Remove this when you code this function
+    lastHand = {}
+    n = HAND_SIZE
+    
+    #as long as you do not input e:
+    while True:
+        # Ask user for input
+        userInput = raw_input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
+        
+        if userInput == 'n':
+            lastHand = dealHand(n)
+            while True:
+                userInput2 = raw_input('Enter u to have yourself play, c to have the computer play: ')
+                if userInput2 == 'u':
+                    playHand(lastHand, wordList, n)
+                    break
+                elif userInput2 == 'c':
+                    compPlayHand(lastHand, wordList, n)
+                    break
+                else:
+                    print('Invalid command.')
+            
+        elif userInput == 'r':
+            # check whether you have played at least one hand
+            if len(lastHand) > 0:
+                while True:
+                    userInput2 = raw_input('Enter u to have yourself play, c to have the computer play: ')
+                    if userInput2 == 'u':
+                        playHand(lastHand, wordList, n)
+                        break
+                    elif userInput2 == 'c':
+                        compPlayHand(lastHand, wordList, n)
+                        break
+                    else:
+                        print('Invalid command.')
+            else:
+                print('You have not played a hand yet. Please play a new hand first!')
+        elif userInput == 'e':
+            break
+        else:
+            print('Invalid command.')
 
         
 #
