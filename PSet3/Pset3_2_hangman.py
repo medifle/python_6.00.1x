@@ -12,7 +12,7 @@
 import random
 import string
 
-WORDLIST_FILENAME = "C:/Users/win7/python_6.00.1x/words.txt"
+WORDLIST_FILENAME = "/Users/bolo/githubRepo/python_6.00.1x/PSet3/words.txt"
 
 def loadWords():
     """
