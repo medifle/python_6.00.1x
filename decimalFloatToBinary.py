@@ -18,7 +18,7 @@ while (a * (2 ** p)) % 1 != 0:
     
 b = int(a * (2 ** p))
 
-# The following block converts decimal int into binary counterpart
+# The following block converts decimal int to binary
 result = ''
 if a == 0:
     result = 0.0
@@ -27,7 +27,7 @@ else:
         result = str(b % 2) + result
         b = b / 2
         
-    # Move dot to proper place
+    # Move the '.' to proper place
     result = float(result) / (10 ** p)
 
 if ifNeg:
