@@ -18,7 +18,7 @@ while (a * (2 ** p)) % 1 != 0:
     
 b = int(a * (2 ** p))
 
-# The following block converts decimal int to binary number
+# The following block converts decimal int into binary counterpart
 result = ''
 if a == 0:
     result = 0.0
