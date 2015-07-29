@@ -37,3 +37,18 @@ class IntSet(object):
         #return '{' + result[:-1] + '}' #-1 omits trailing comma
         # or you could use
         return '{' + ','.join([str(e) for e in self.vals]) + '}'
+        
+    def intersect(self, other):
+        '''Returns a new IntSet containing elements that appear in both sets.
+        'other' should also be a instance of IntSet'''
+        # initialize a new set
+        commonValueSet = IntSet()
+        # insert common values into the new set
+        for e in self.vals:
+            if other.member(e):
+                commonValueSet.insert(e)
+        return commonValueSet
+        
+    def __len__(self):
+        '''len(s) returns the number of elements in s, which is a instance of IntSet'''
+        return len(self.vals)
