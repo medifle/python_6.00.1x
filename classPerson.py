@@ -60,10 +60,10 @@ class MITPerson(Person):
     def __lt__(self, other):
         return self.idNum < other.idNum
 
-p1 = MITPerson('Eric')
-p2 = MITPerson('John')
-p3 = MITPerson('John')
-p4 = Person('John')
+# p1 = MITPerson('Eric')
+# p2 = MITPerson('John')
+# p3 = MITPerson('John')
+# p4 = Person('John')
 
 # print p1
 # p1.getIdNum()
@@ -74,3 +74,22 @@ p4 = Person('John')
 
 # p1 < p4
 
+class Student(MITPerson):
+    pass
+
+class UG(Student):
+    def __init__(self, name, classYear):
+        MITPerson.__init__(self, name)
+        self.year = classYear
+        
+    def getClass(self):
+        return self.year
+        
+class Grad(Student):
+    pass
+    
+class TransferStudent(Student):
+    pass
+    
+def isStudent(obj):
+    return isinstance(obj, Student)
