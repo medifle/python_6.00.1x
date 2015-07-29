@@ -31,7 +31,9 @@ class IntSet(object):
     def __str__(self):
         """Returns a string representation of self"""
         self.vals.sort()
-        result = ''
-        for e in self.vals:
-            result = result + str(e) + ','
-        return '{' + result[:-1] + '}' #-1 omits trailing comma
+        #result = ''
+        #for e in self.vals:
+        #    result = result + str(e) + ','
+        #return '{' + result[:-1] + '}' #-1 omits trailing comma
+        # or you could use
+        return '{' + ','.join([str(e) for e in self.vals]) + '}'
