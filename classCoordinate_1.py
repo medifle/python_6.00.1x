@@ -23,4 +23,4 @@ class Coordinate(object):
     def __repr__(self):
         '''Returns a string that looks like a valid Python expression
         that could be used to recreate an object with the same value'''
-        return 
+        return 'Coordinate(%r, %r)' % (self.x, self.y)
