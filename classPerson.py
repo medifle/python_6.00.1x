@@ -125,8 +125,8 @@ class Grades(object):
 
     def getGrades(self, student):
         """Return a list of grades for student"""
-        try:    # return copy of student's grades
-            return self.grades[student.getIdNum()][:]
+        try:
+            return self.grades[student.getIdNum()]
         except KeyError:
             raise ValueError('Student not in grade book')
 
@@ -135,7 +135,7 @@ class Grades(object):
         if not self.isSorted:
             self.students.sort()
             self.isSorted = True
-        return self.students[:] #return copy of list of students
+        return self.students
 
 def gradeReport(course):
     """Assumes: course is of type grades"""
