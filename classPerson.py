@@ -135,7 +135,8 @@ class Grades(object):
         if not self.isSorted:
             self.students.sort()
             self.isSorted = True
-        return self.students
+        for k in self.students:
+            yield k
 
 def gradeReport(course):
     """Assumes: course is of type grades"""
@@ -155,26 +156,26 @@ def gradeReport(course):
         except ZeroDivisionError:
             report.append(str(s) + ' has no grades')
     return '\n'.join(report)
-    
-# ug1 = UG('Jane Doe', 2014)
-# ug2 = UG('John Doe', 2015)
-# ug3 = UG('David Henry', 2003)
-# g1 = Grad('John Henry')
-# g2 = Grad('George Steinbrenner')
+# --Definition of Gradebook END--
+# --Sample Test START--
+ug1 = UG('Jane Doe', 2014)
+ug2 = UG('John Doe', 2015)
+ug3 = UG('David Henry', 2003)
+g1 = Grad('John Henry')
+g2 = Grad('George Steinbrenner')
 
-# six00 = Grades()
-# six00.addStudent(g1)
-# six00.addStudent(ug2)
-# six00.addStudent(ug1)
-# six00.addStudent(g2)
+six00 = Grades()
+six00.addStudent(g1)
+six00.addStudent(ug2)
+six00.addStudent(ug1)
+six00.addStudent(g2)
 
-# for s in six00.allStudents():
-#     six00.addGrade(s, 75)
-# six00.addGrade(g1, 100)
-# six00.addGrade(g2, 25)
+for s in six00.allStudents():
+    six00.addGrade(s, 75)
+six00.addGrade(g1, 100)
+six00.addGrade(g2, 25)
 
-# six00.addStudent(ug3)
+six00.addStudent(ug3)
 
 # print gradeReport(six00)
-
-# --Definition of Gradebook END--
+# --Sample Test END--
