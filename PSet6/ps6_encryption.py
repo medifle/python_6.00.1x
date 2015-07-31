@@ -80,7 +80,7 @@ def getStoryString():
     """
     Returns a story in encrypted text.
     """
-    return open("story.txt", "r").read()
+    return open("/Users/bolo/githubRepo/python_6.00.1x/PSet6/story.txt", "r").read()
 
 
 # (end of helper code)
@@ -148,18 +148,34 @@ def findBestShift(wordList, text):
     returns: 0 <= int < 26
     HINT: notice the 'best'
     """
-    # initialize shift value x to 1
     # initialize bestshift to 0
-    # for each possible shift from 0 to 26
-        # convert story.txt by shifting x
+    bestShift = 0
+    # initialize max number of valid words to 0
+    maxValidWord = 0
+    # for each possible shift from 1 to 25
+    for i in range(25):
+        currentShift = i
+        # convert story.txt by current shift value
+        newStory = applyShift(text, currentShift)
         # split new-converted story.txt into a list of individual words
+        newStoryList = newStory.split(' ')
         # initialize the number of valid words to 0
-        # for each word in the word list, check validity
+        validNum = 0
+        # for each word in the word list, check validity and count valid words
+        for i in newStoryList:
+            if isWord(wordList, i):
+                validNum += 1
         # if the number of valid words under this shift is greater than one under last shift
+        if validNum > maxValidWord:
             # update the number of valid words
+            maxValidWord = validNum
             # update bestshift
-        # else, current shift x plus 1
+            bestShift = currentShift
+        # else, current shift plus 1
+        else:
+            currentShift += 1
     # return bestshift
+    return bestShift
     
 def decryptStory():
     """
