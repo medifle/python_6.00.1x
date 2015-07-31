@@ -5,7 +5,7 @@
 import string
 import random
 
-WORDLIST_FILENAME = "words.txt"
+WORDLIST_FILENAME = "/Users/bolo/githubRepo/python_6.00.1x/PSet6/words.txt"
 
 # -----------------------------------
 # Helper code
@@ -65,16 +65,16 @@ def randomScrambled(wordList, n):
     and encrypting it with a sequence of random shifts.
 
     wordList: list of words
-    n: number of random words to generate and scamble
+    n: number of random words to generate and scramble
     returns: a scrambled string of n random words
 
     NOTE:
     This function will ONLY work once you have completed your
-    implementation of applyShifts!
+    implementation of applyShift!
     """
     s = randomString(wordList, n) + " "
     shifts = [(i, random.randint(0, 25)) for i in range(len(s)) if s[i-1] == ' ']
-    return applyShifts(s, shifts)[:-1]
+    return applyShift(s, shifts)[:-1]
 
 def getStoryString():
     """
@@ -99,8 +99,13 @@ def buildCoder(shift):
     shift: 0 <= int < 26
     returns: dict
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    dic = {}
+    alphaUpper = string.ascii_uppercase
+    alphaLower = string.ascii_lowercase
+    for i in range(26):
+        dic[alphaUpper[i]] = alphaUpper[(i + shift) % 26]
+        dic[alphaLower[i]] = alphaLower[(i + shift) % 26]
+    return dic
 
 def applyCoder(text, coder):
     """
@@ -110,8 +115,13 @@ def applyCoder(text, coder):
     coder: dict with mappings of characters to shifted characters
     returns: text after mapping coder chars to original text
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    textNew = ''
+    for i in text:
+        if not i in string.ascii_uppercase and not i in string.ascii_lowercase:
+            textNew += i
+        else:
+            textNew += coder[i]
+    return textNew
 
 def applyShift(text, shift):
     """
@@ -123,10 +133,9 @@ def applyShift(text, shift):
     text: string to apply the shift to
     shift: amount to shift the text (0 <= int < 26)
     returns: text after being shifted by specified amount.
+    HINT: This is a wrapper function.
     """
-    ### TODO.
-    ### HINT: This is a wrapper function.
-    return "Not yet implemented." # Remove this comment when you code the function
+    return applyCoder(text, buildCoder(shift))
 
 #
 # Problem 2: Decryption
