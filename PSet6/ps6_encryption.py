@@ -146,10 +146,21 @@ def findBestShift(wordList, text):
 
     text: string
     returns: 0 <= int < 26
+    HINT: notice the 'best'
     """
-    ### TODO
-    return "Not yet implemented." # Remove this comment when you code the function
-
+    # initialize shift value x to 1
+    # initialize bestshift to 0
+    # for each possible shift from 0 to 26
+        # convert story.txt by shifting x
+        # split new-converted story.txt into a list of individual words
+        # initialize the number of valid words to 0
+        # for each word in the word list, check validity
+        # if the number of valid words under this shift is greater than one under last shift
+            # update the number of valid words
+            # update bestshift
+        # else, current shift x plus 1
+    # return bestshift
+    
 def decryptStory():
     """
     Using the methods you created in this problem set,
