@@ -34,11 +34,11 @@ class PHPGoAway(object):
             s = s[1:] + s[0]
         return alphaTable
         
-    def genKeyWord(self, msg):
+    def genKeyWord(self):
         '''Returns keyword whose length matches the length of self.msg'''
         # compare lengths of two string and generate keyword accordingly
         if len(self.key) >= len(self.msg):
             self.keyWord = self.key[:len(self.msg)]
         else:
-            self.keyWord = self.key * (len(self.msg) / len(self.key)) + self.msg[:(len(self.msg) % len(self.key))]
-        
+            self.keyWord = self.key * (len(self.msg) / len(self.key)) + self.key[:(len(self.msg) % len(self.key))]
+        return self.keyWord
