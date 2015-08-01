@@ -6,6 +6,7 @@ import string
 class PHPGoAway(object):
     def __init__(self, key):
         self.key = key.lower().replace(" ", "")
+        self.msg = ''
 
     def setKey(self, key):
         '''key: a string.'''
@@ -18,6 +19,15 @@ class PHPGoAway(object):
         Returns back the encrypted message.'''
         # convert to lowercase
         self.msg = msg.lower()
+        # initialize result, keyword
+        result = ''
+        keyword = self.genKeyWord()
+        # for each letter in keyword
+        for i in range(len(keyword)):
+            # go along with the corresponding row of alphabet table and generate enciphered letter
+            column = string.ascii_lowercase.index(self.msg[i])
+            result += self.genTable()[keyword[i]][column]
+        return result
         
     def fromLove(self, msg):
         '''msg: message to be received
@@ -38,7 +48,7 @@ class PHPGoAway(object):
         '''Returns keyword whose length matches the length of self.msg'''
         # compare lengths of two string and generate keyword accordingly
         if len(self.key) >= len(self.msg):
-            self.keyWord = self.key[:len(self.msg)]
+            keyWord = self.key[:len(self.msg)]
         else:
-            self.keyWord = self.key * (len(self.msg) / len(self.key)) + self.key[:(len(self.msg) % len(self.key))]
-        return self.keyWord
+            keyWord = self.key * (len(self.msg) / len(self.key)) + self.key[:(len(self.msg) % len(self.key))]
+        return keyWord
