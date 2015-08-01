@@ -40,8 +40,24 @@ def x_ian(x, word):
     word: a string
     returns: True if word is x_ian, False otherwise
     """
-    ###TODO.
-
+    # base case
+    if len(x) == 2:
+        return word.index(x[0]) < word.index(x[1])
+    # recursion block
+    if word.index(x[0]) < word.index(x[1]):
+        return x_ian(x[1:], word)
+    else:
+        return False
+    
+    # --iteration implementation of x_ian START--
+#    index = -1
+#    for i in x:
+#        if i in word and word.index(i) > index:
+#                index = word.index(i)
+#        else:
+#            return False
+#    return True
+    # --iteration implementation of x_ian END--
 #
 # Problem 5: Typewriter
 #
