@@ -72,4 +72,8 @@ def insertNewlines(text, lineLength):
         the next word.
     returns: a string, with newline characters inserted appropriately. 
     """
-    ### TODO.
+    # base case
+    if len(text) < lineLength:
+        return text
+    # recursion block
+    return text[:lineLength] + '\n' + insertNewlines(text[lineLength:], lineLength)
