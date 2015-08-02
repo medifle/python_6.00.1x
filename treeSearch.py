@@ -56,10 +56,37 @@ def BFSBinary(root, fcn, n):
         else:
             temp = queue.pop(0)
             if temp.getRightBranch():
+                # this is one of what vary from DFSBinary()
                 queue.append(temp.getRightBranch())
             if temp.getLeftBranch():
+                # this is another of what vary from DFSBinary()
                 queue.append(temp.getLeftBranch())
     return False
+
+
+# DFS version of getting the path to the search goal
+def DFSBinaryPath(root, fcn, n):
+    '''root is the start node of a tree you want to search downward
+    fcn is the function to test if node value is integer n
+    Returns boolean'''
+    stack = [root]
+    while len(stack) > 0:
+        print 'at node ' + str(stack[0].getValue())
+        if fcn(stack[0], n):
+            return tracePath(stack[0])
+        else:
+            temp = stack.pop(0)
+            if temp.getRightBranch():
+                stack.insert(0, temp.getRightBranch())
+            if temp.getLeftBranch():
+                stack.insert(0, temp.getLeftBranch())
+    return False
+
+def tracePath(node):
+    if not node.getParent():
+        return [node.value]
+    else:
+        return [node.value] + tracePath(node.getParent())
 
 # create a 8 elements of tree
 n5 = binaryTree(5)
@@ -72,7 +99,8 @@ n7 = binaryTree(7)
 n3 = binaryTree(3)
 
 # construct tree
-# there are (8 - 1) edges(or branches), (8 - 1) * 2 lines to construct.
+# there are (8 - 1) edges(or branches)
+# takes (8 - 1) * 2 lines to construct.
 n5.setLeftBranch(n2)
 n2.setParent(n5)
 n5.setRightBranch(n8)
