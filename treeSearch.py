@@ -25,8 +25,8 @@ class binaryTree(object):
 
 # Depth First binary Search
 def DFSBinary(root, fcn, n):
-    '''root is the start node of a tree you want to search downward
-    fcn is the function to test if node value is integer n
+    '''root is the start node of a tree you want to search downward.
+    fcn is the function to test if node value is integer n.
     Returns boolean'''
     stack = [root]
     while len(stack) > 0:
@@ -45,8 +45,8 @@ def DFSBinary(root, fcn, n):
 # there are minor differences between BFSBinary and DFSBinary
 # the core difference is between queue which is FIFO and stack which is LIFO
 def BFSBinary(root, fcn, n):
-    '''root is the start node of a tree you want to search downward
-    fcn is the function to test if node value is integer n
+    '''root is the start node of a tree you want to search downward.
+    fcn is the function to test if node value is integer n.
     Returns boolean'''
     queue = [root]
     while len(queue) > 0:
@@ -66,8 +66,8 @@ def BFSBinary(root, fcn, n):
 
 # DFS version of getting the path to the search goal
 def DFSBinaryPath(root, fcn, n):
-    '''root is the start node of a tree you want to search downward
-    fcn is the function to test if node value is integer n
+    '''root is the start node of a tree you want to search downward.
+    fcn is the function to test if node value is integer n.
     Returns boolean'''
     stack = [root]
     while len(stack) > 0:
@@ -87,6 +87,33 @@ def tracePath(node):
         return [node.value]
     else:
         return [node.value] + tracePath(node.getParent())
+
+
+# DFS version of searching ordered tree
+def DFSBinaryOrdered(root, fcn, n, ltfcn):
+    '''root is the start node of a tree you want to search downward.
+    fcn is the function to test if node value is integer n.
+    ltfcn , which means less than function, is used to compare n and current node value.
+    Returns boolean'''
+    stack = [root]
+    while len(stack) > 0:
+        print 'at node ' + str(stack[0].getValue())
+        if fcn(stack[0], n):
+            return True
+        elif ltfcn(stack[0], n):
+            temp = stack.pop(0)
+            stack.insert(0, temp.getRightBranch())
+        else:
+            temp = stack.pop(0)
+            stack.insert(0, temp.getLeftBranch())
+    return False
+            
+def ltfcn(node, n):
+    if node.value < n:
+        return True
+    else:
+        return False
+
 
 # create a 8 elements of tree
 n5 = binaryTree(5)
