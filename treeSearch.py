@@ -25,8 +25,8 @@ class binaryTree(object):
 
 # Depth First binary Search
 def DFSBinary(root, fcn, n):
-    '''root is the root node of a tree
-    fcn is the function to test if node value is the integer n
+    '''root is the start node of a tree you want to search downward
+    fcn is the function to test if node value is integer n
     Returns boolean'''
     stack = [root]
     while len(stack) > 0:
@@ -41,12 +41,12 @@ def DFSBinary(root, fcn, n):
                 stack.insert(0, temp.getLeftBranch())
     return False
 
-# Broad First binary Search
+# Breadth First binary Search
 # there are minor differences between BFSBinary and DFSBinary
 # the core difference is between queue which is FIFO and stack which is LIFO
 def BFSBinary(root, fcn, n):
-    '''root is the root node of a tree
-    fcn is the function to test if node value is the integer n
+    '''root is the start node of a tree you want to search downward
+    fcn is the function to test if node value is integer n
     Returns boolean'''
     queue = [root]
     while len(queue) > 0:
