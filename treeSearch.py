@@ -149,3 +149,28 @@ def find(node, n):
     node is an instance of binaryTree class
     Returns boolean, to test if the value of node equals to n'''
     return node.getValue() == n
+
+
+### second version is a decision tree
+
+# knapsack problem
+
+# make a decision tree
+# for efficiency should really generate on the fly, but here will build and then search
+
+def buildDTree(sofar, todo):
+    '''sofar: a list of items already included in knapsack
+    todo: a list of items that are not in knapsack need to be decided 
+    which item should be included in knapsack'''
+    # base case
+    if len(todo) == 0:
+        # notice this is "binaryTree", not buildDTree
+        return binaryTree(sofar)
+    # recursion block
+    else:
+        withelt = buildDTree(sofar + [todo[0]], todo[1:])
+        withoutelt = buildDTree(sofar, todo[1:])
+        here = binaryTree(sofar)
+        here.setLeftBranch(withelt)
+        here.setRightBranch(withoutelt)
+        return here
