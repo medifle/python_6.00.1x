@@ -159,11 +159,11 @@ def find(node, n):
 # for efficiency should really generate on the fly, but here will build and then search
 
 def buildDTree(sofar, todo):
-    '''building a binary tree, whose root is sofar.
+    '''building a decision tree(binary). the tree root is sofarNode whose value is sofar.
     sofar: a list of items already included in knapsack
     todo: a list of items that are not in knapsack needs to be decided 
     which item within the list should be included in knapsack
-    Returns root node of the tree: sofar'''
+    Returns root node of the tree: sofarNode'''
     # base case
     if len(todo) == 0:
         # notice this is binaryTree(), not buildDTree()
@@ -191,3 +191,4 @@ def buildDTree(sofar, todo):
         # notice one of arguments you passed in is sofar, 
         # while buildDTree function return a node whose value is sofar
         return sofarNode
+
