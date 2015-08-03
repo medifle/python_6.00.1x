@@ -159,18 +159,35 @@ def find(node, n):
 # for efficiency should really generate on the fly, but here will build and then search
 
 def buildDTree(sofar, todo):
-    '''sofar: a list of items already included in knapsack
-    todo: a list of items that are not in knapsack need to be decided 
-    which item should be included in knapsack'''
+    '''building a binary tree, whose root is sofar.
+    sofar: a list of items already included in knapsack
+    todo: a list of items that are not in knapsack needs to be decided 
+    which item within the list should be included in knapsack
+    Returns root node of the tree: sofar'''
     # base case
     if len(todo) == 0:
-        # notice this is "binaryTree", not buildDTree
+        # notice this is binaryTree(), not buildDTree()
+        # return type is node whose value is sofar without any child
         return binaryTree(sofar)
     # recursion block
     else:
+        # create current node, which means an instance of the binaryTree class. 
+        # the value of sofarnode is the argument sofar
+        sofarNode = binaryTree(sofar)
+        
+        # create left and right children whose type are also node, an instance of binaryTree class
+        # building children recursively could easily create two huge trees whose root nodes are withelt and withoutelt respectively
+        # withelt would be a node whose value is (sofar + [todo[0]])
         withelt = buildDTree(sofar + [todo[0]], todo[1:])
+        # withoutelt would be a node whose value is sofar
         withoutelt = buildDTree(sofar, todo[1:])
-        here = binaryTree(sofar)
-        here.setLeftBranch(withelt)
-        here.setRightBranch(withoutelt)
-        return here
+        
+        # set withelt as a child of sofarNode
+        sofarNode.setLeftBranch(withelt)
+        # set withoutelt as a child of sofarNode
+        sofarNode.setRightBranch(withoutelt)
+        
+        # return type is node whose value is sofar with two children.
+        # notice one of arguments you passed in is sofar, 
+        # while buildDTree function return a node whose value is sofar
+        return sofarNode
