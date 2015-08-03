@@ -255,4 +255,4 @@ a = [6,3]
 b = [7,2]
 c = [8,4]
 d = [9,5]
-# print foo1.value
+# print foo1.getValue()
