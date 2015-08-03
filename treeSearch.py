@@ -192,3 +192,19 @@ def buildDTree(sofar, todo):
         # while buildDTree function return a node whose value is sofar
         return sofarNode
 
+def DFSDTree(root, valueFcn, constraintFcn):
+    '''
+    GOAL: every node in a tree is a possible knapsack you want.
+    Now you want to find the most valuable knapsack. 
+    However the weight of the knapsack should be acceptable.
+    NOTICE: every node value, which may be accessed by "node.getValue" method, 
+    is a knapsack, which contains several items, 
+    and each item encompasses two properties: value and weight.
+    
+    Arguments Instruction:
+    root is the start node of a tree you want to search downward.
+    valueFcn is the function to get total value of a knapsack. 
+    constraintFcn is the function to check if total weight of a knapsack is below certain amount.
+    Returns most valuable knapsack(node).
+    '''
+    
