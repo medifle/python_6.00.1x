@@ -152,12 +152,13 @@ def find(node, n):
 
 
 ### second version is a decision tree
+# take the example of knapsack problem
 
-# knapsack problem
+# section 1
+# for efficiency it should really generate on the fly, but here will build and then search.
+# go to section 2 for on-the-fly version
 
 # make a decision tree
-# for efficiency should really generate on the fly, but here will build and then search
-
 def buildDTree(sofar, todo):
     '''building a decision tree(binary). the tree root is sofarNode whose value is sofar.
     sofar: a list of items already included in knapsack
@@ -205,7 +206,7 @@ def DFSDTree(root, valueFcn, constraintFcn, n):
     root is the start node of a tree you want to search downward.
     valueFcn is the function to get total value of a knapsack. 
     constraintFcn is the function to check if total weight of a knapsack is below certain amount.
-    n is an integer representing weight amount used by constraintFcn.
+    n is an integer representing weight passed into constraintFcn as an argument.
     Returns most valuable knapsack(node).
     '''
     ## knapsack item could be consider as new class instance or just list instance.
@@ -247,7 +248,7 @@ def DFSDTreeGoodEnough(root, valueFcn, constraintFcn, n, stopFcn, g):
     root is the start node of a tree you want to search downward.
     valueFcn is the function to get total value of a knapsack. 
     constraintFcn is the function to check if total weight of a knapsack is below certain amount.
-    n is an integer representing weight amount used by constraintFcn.
+    n is an integer representing weight passed into constraintFcn as an argument.
     stopFcn is the function to stop execution when total value in knapsack is good enough so you don't need do further search
     and return best result so far.
     g is an integer setting the good-enough value boundary.
@@ -283,7 +284,7 @@ def DFSDTreeGoodEnough(root, valueFcn, constraintFcn, n, stopFcn, g):
     return best
 
 def weightConstraint(Lst, n):
-    '''n is a positive integer representing weight amount of knapsack
+    '''n is a positive integer representing weight of knapsack
     Lst is a node value whose type is list
     Returns boolean'''
     weightList = [e[1] for e in Lst]
@@ -309,3 +310,48 @@ b = [7,2]
 c = [8,4]
 d = [9,5]
 # print foo1.getValue()
+
+
+# section 2
+# generate tree and search its nodes on the fly
+# only build the tree as I need it
+
+# generate Decision Tree implicitly
+def DTImplicit(todo, avail):
+    '''
+    to understand this function, you should know what it returns.
+    todo is a list of items I could hand in.
+    avail is an integer meaning weight still available in knapsack.
+    '''
+    # base case
+    if todo == [] or avail == 0:
+        # 0 means the value is zero; [] means there is nothing to take into knappack
+        # return format of base case is consistent with function return
+        return [0, []]
+    # check weight
+    if todo[0][1] > avail:
+        # if it is bigger than what is currently available, 
+        # then my result is whatever I would get by solving
+        # the rest of the problem not including that element.
+        return DTImplicit(todo[1:], avail)
+    # recursive block
+    else:
+        # a simple operation divided from the complex problem
+        nextItem = todo[0]
+        # a smaller version of the same problem
+        # left section of the following equation means solving the rest of the problem
+        # by passing todo items except todo[0], 
+        # and decrementing weight so knapsack already leave space for todo[0]
+        [withVal, withTaken] = DTImplicit(todo[1:], avail - nextItem[1])
+        withVal += nextItem[0]
+        # a smaller version of the same problem
+        # most of things is similar to what said above, 
+        # but this case do not consider todo[0], so knapsack space is not affected
+        [withoutVal, withoutTaken] = DTImplicit(todo[1:], avail)
+        # compare and choose the most valuable knapsack
+        if withVal > withoutVal:
+            result = [withVal, withTaken + [nextItem,]]
+        else:
+            result = [withoutVal, withoutTaken]
+    # key to understand this whole function is what this function returns
+    return result
