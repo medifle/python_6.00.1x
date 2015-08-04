@@ -355,3 +355,30 @@ def DTImplicit(todo, avail):
             result = [withoutVal, withoutTaken]
     # key to understand this whole function is what this function returns
     return result
+
+# avoid causing infinite problems in search problems in structure that might
+# have loops within the structure
+def DFSBinaryNoLoop(root, fcn, n):
+    '''root is the start node of a tree you want to search downward.
+    fcn is the function to test if node value is integer n.
+    Returns boolean'''
+    stack = [root]
+    # add a varible to keep track of what we have looked at
+    seen = []
+    while len(stack) > 0:
+        print 'at node ' + str(stack[0].getValue())
+        if fcn(stack[0], n):
+            return True
+        else:
+            temp = stack.pop(0)
+            seen.append(temp)
+            if temp.getRightBranch():
+                if not temp.getRightBranch() in seen:
+                    stack.insert(0, temp.getRightBranch())
+            if temp.getLeftBranch():
+                if not temp.getLeftBranch() in seen:
+                    stack.insert(0, temp.getLeftBranch())
+    return False
+# test sample
+# n3.setLeftBranch(n5)
+# n5.setParent(n3)
