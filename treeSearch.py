@@ -209,7 +209,7 @@ def DFSDTree(root, valueFcn, constraintFcn, n):
     Returns most valuable knapsack(node).
     '''
     ## knapsack item could be consider as new class instance or just list instance.
-    # following implementation use the second way.
+    # following implementation use the second way:
     # consider each item in knapsack as a list which has two elements; 
     # first is value property, second is weight property.
     stack = [root]
@@ -234,6 +234,54 @@ def DFSDTree(root, valueFcn, constraintFcn, n):
     print 'visited', visited
     return best
     
+def DFSDTreeGoodEnough(root, valueFcn, constraintFcn, n, stopFcn, g):
+    '''
+    GOAL: every node, which is an instance of a tree, may be a possible knapsack you want.
+    Now you want to use this function to find the knapsack whose value is desirable, or good enough. 
+    However, the weight of the knapsack should be acceptable.
+    NOTICE: every node value, which may be accessed by "node.getValue" method, 
+    is a knapsack, which contains several items. 
+    Each item encompasses two properties: value and weight.
+    
+    Arguments Instruction:
+    root is the start node of a tree you want to search downward.
+    valueFcn is the function to get total value of a knapsack. 
+    constraintFcn is the function to check if total weight of a knapsack is below certain amount.
+    n is an integer representing weight amount used by constraintFcn.
+    stopFcn is the function to stop execution when total value in knapsack is good enough so you don't need do further search
+    and return best result so far.
+    g is an integer setting the good-enough value boundary.
+    Returns most valuable knapsack(node).
+    '''
+    ## knapsack item could be consider as new class instance or just list instance.
+    # following implementation use the second way:
+    # consider each item in knapsack as a list which has two elements; 
+    # first is value property, second is weight property.
+    stack = [root]
+    best = None
+    visited = 0
+    while len(stack) > 0:
+        visited += 1
+        if constraintFcn(stack[0].value, n):
+            if best == None:
+                best = stack[0]
+                print best.getValue()
+            elif valueSum(stack[0].value) > valueSum(best.value):
+                best = stack[0]
+                print best.getValue()
+            if stopFcn(best.getValue(), g):
+                print 'good enough! visited', visited
+                return best
+            temp = stack.pop(0)
+            if temp.getLeftBranch():
+                stack.insert(0, temp.getLeftBranch())
+            if temp.getRightBranch():
+                stack.insert(0, temp.getRightBranch())
+        else:
+            stack.pop(0)
+    print 'visited', visited
+    return best
+
 def weightConstraint(Lst, n):
     '''n is a positive integer representing weight amount of knapsack
     Lst is a node value whose type is list
@@ -248,7 +296,12 @@ def valueSum(Lst):
     valueList = [e[0] for e in Lst]
     return sum(valueList)
 
-# test sample
+def stop(Lst, g):
+    '''Lst is a node value whose type is list.
+    g is an integer setting the value boundary when total value in knapsack is good enough'''
+    return valueSum(Lst) > g
+
+# DFSDTree() test sample
 # to test, uncomment the following 6 lines first
 # foo1 = DFSDTree(tree1, valueSum, weightConstraint, 10)
 a = [6,3]
