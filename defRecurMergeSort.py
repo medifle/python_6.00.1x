@@ -1,4 +1,6 @@
 def merge(L):
+    '''L: a list
+    Returns: a sorted list'''
     # base case
     if len(L) == 1:
         return L
