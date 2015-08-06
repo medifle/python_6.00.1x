@@ -45,8 +45,29 @@ def process(url):
 #======================
 
 # Problem 1
-
-# TODO: NewsStory
+class NewsStory(object):
+    def __init__(self, guid, title, subject, summary, link):
+        '''args type is string'''
+        self.guid = guid
+        self.titl = title
+        self.subj = subject
+        self.sumry = summary
+        self.link = link
+        
+    def getGuid(self):
+        return self.guid
+        
+    def getTitle(self):
+        return self.titl
+        
+    def getSubject(self):
+        return self.subj
+        
+    def getSummary(self):
+        return self.sumry
+        
+    def getLink(self):
+        return self.link
 
 #======================
 # Part 2
@@ -56,6 +77,7 @@ def process(url):
 class Trigger(object):
     def evaluate(self, story):
         """
+        story is an instance of NewsStory class.
         Returns True if an alert should be generated
         for the given news item, or False otherwise.
         """
@@ -64,9 +86,34 @@ class Trigger(object):
 # Whole Word Triggers
 # Problems 2-5
 
-# TODO: WordTrigger
+class WordTrigger(Trigger):
+    def __init__(self, word):
+        '''set the trigger word'''
+        self.word = word
+        
+    def isWordIn(self, text):
+        '''text is string
+        Returns True if the whole word word is present in text,
+        False otherwise'''
+        lowerWord = self.word.lower()
+        lowerText = text.lower()
+        transTable = string.maketrans(string.punctuation, ' '*len(string.punctuation))
+        transText = lowerText.translate(transTable)
+        textList = transText.split(' ')
+        return lowerWord in textList
+        
+class TitleTrigger(WordTrigger):
+    def evaluate(self, story):
+        return self.isWordIn(story.titl)
+        
+class SubjectTrigger(WordTrigger):
+    def evaluate(self, story):
+        return self.isWordIn(story.subj)
+        
+class SummaryTrigger(WordTrigger):
+    def evaluate(self, story):
+        return self.isWordIn(story.sumry)
 
-# TODO: TitleTrigger
 # TODO: SubjectTrigger
 # TODO: SummaryTrigger
 
