@@ -119,10 +119,32 @@ class SummaryTrigger(WordTrigger):
 # Composite Triggers
 # Problems 6-8
 
-# TODO: NotTrigger
-# TODO: AndTrigger
-# TODO: OrTrigger
+class NotTrigger(Trigger):
+    '''This trigger should produce its output by inverting the output of another trigger.
+    Given a trigger T and a news item(an instance of NewsStory) x, 
+    NotTrigger(T).evaluate(x) should be
+    equivalent to not T.evaluate(x)'''
+    def __init__(self, otherTrigger):
+        self.otg = otherTrigger
+    
+    def evaluate(self, story):
+        return not self.otg.evaluate(story)
 
+class AndTrigger(Trigger):
+    def __init__(self, otherTrig1, otherTrig2):
+        self.otg1 = otherTrig1
+        self.otg2 = otherTrig2
+        
+    def evaluate(self, story):
+        return self.otg1.evaluate(story) and self.otg2.evaluate(story)
+    
+class OrTrigger(Trigger):
+    def __init__(self, otherTrig1, otherTrig2):
+        self.otg1 = otherTrig1
+        self.otg2 = otherTrig2
+
+    def evaluate(self, story):
+        return self.otg1.evaluate(story) or self.otg2.evaluate(story)
 
 # Phrase Trigger
 # Question 9
