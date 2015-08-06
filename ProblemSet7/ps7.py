@@ -87,7 +87,7 @@ class Trigger(object):
 # Problems 2-5
 
 class WordTrigger(Trigger):
-    def __init__(self, word):
+    def __init__(self, word=''):
         '''set the trigger word'''
         self.word = word
         
@@ -115,12 +115,12 @@ class SummaryTrigger(WordTrigger):
         return self.isWordIn(story.getSummary())
 
 
-
 # Composite Triggers
 # Problems 6-8
 
 class NotTrigger(Trigger):
-    '''This trigger should produce its output by inverting the output of another trigger.
+    '''This trigger should produce its output
+    by inverting the output of another trigger.
     Given a trigger T and a news item(an instance of NewsStory) x, 
     NotTrigger(T).evaluate(x) should be
     equivalent to not T.evaluate(x)'''
@@ -131,26 +131,54 @@ class NotTrigger(Trigger):
         return not self.otg.evaluate(story)
 
 class AndTrigger(Trigger):
+    '''should fire on a news item only if
+    both of the inputted triggers would fire on that item.'''
     def __init__(self, otherTrig1, otherTrig2):
+        '''otherTrig1 and otherTrig2 are two triggers
+        like TitleTrigger and SummaryTrigger.'''
         self.otg1 = otherTrig1
         self.otg2 = otherTrig2
         
     def evaluate(self, story):
+        '''Returns True only if 
+        both trigger's evaluate methods return True.'''
         return self.otg1.evaluate(story) and self.otg2.evaluate(story)
     
 class OrTrigger(Trigger):
+    '''should fire if either one (or both) of 
+    its inputted triggers would fire on that item.'''
     def __init__(self, otherTrig1, otherTrig2):
         self.otg1 = otherTrig1
         self.otg2 = otherTrig2
 
     def evaluate(self, story):
+        '''Returns True only if either one (or both) of 
+        trigger's evaluate methods return True.'''
         return self.otg1.evaluate(story) or self.otg2.evaluate(story)
 
 # Phrase Trigger
 # Question 9
 
-# TODO: PhraseTrigger
-
+class PhraseTrigger(Trigger):
+    '''should fire when a given phrase is in 
+    any of the story's subject, title, or summary.'''
+    def __init__(self, phrase=''):
+        self.phrase = phrase
+        
+    def evaluate(self, story):
+        '''Returns True only if the given phrase matches 
+        any of the story's subject, title, or summary.
+        EXAMPLE:
+        "New York City" will match:
+            New York City sees movie premiere
+            In the heart of New York City's famous cafe
+            New York Cityrandomtexttoproveapointhere
+        but will not match:
+            I love new york city
+            I love    New             York              City!!!!!!!'''
+        return self.phrase in story.getSubject() or\
+            self.phrase in story.getTitle() or\
+            self.phrase in story.getSummary()
 
 #======================
 # Part 3
@@ -163,9 +191,13 @@ def filterStories(stories, triggerlist):
 
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
-    # TODO: Problem 10
-    # This is a placeholder (we're just returning all the stories, with no filtering) 
-    return stories
+    filteredStories = []
+    for story in stories:
+        for trig in triggerlist:
+            if trig.evaluate(story) and story not in filteredStories:
+                filteredStories.append(story)
+            
+    return filteredStories
 
 #======================
 # Part 4
